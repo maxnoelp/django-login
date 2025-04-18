@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
+import random
 
 
 # Create your models here.
@@ -20,6 +21,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser, PermissionsMixin):
+    username = models.CharField(max_length=30, unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(max_length=255, unique=True)
@@ -28,10 +30,34 @@ class User(AbstractUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
 
     objects = UserManager()
 
+    def generate_unique_student_id(self):
+        while True:
+            student_id = str(random.randint(1000000000, 9999999999))
+            if not User.objects.filter(student_id=student_id).exists():
+                return student_id
+
+    def save(self, *args, **kwargs):
+        if not self.student_id:
+            self.student_id = self.generate_unique_student_id()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.email
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_image = models.ImageField(
+        upload_to="profile_pictures/", null=True, blank=True
+    )
+    cover_image = models.ImageField(upload_to="cover_photos/", null=True, blank=True)
+    biographie = models.TextField(null=True, blank=True)
+    job_title = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.email

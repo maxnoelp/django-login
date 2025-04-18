@@ -1,0 +1,37 @@
+*, *, ::after, ::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh !important;
+    background: linear-gradient(to right, #00A88F, #BFE3E0);
+}
+
+.form-container {
+    background: #b3e6df;
+background: linear-gradient(90deg,rgba(179, 230, 223, 1) 0%, rgba(145, 235, 230, 1) 53%, rgba(81, 232, 227, 1) 100%);
+}
+
+.link-custom {
+    color: white;
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+
+.myButton {
+     width: 200px;
+     height: 50px;
+     font-size: 20px;
+     color: #ffffff;
+     background: linear-gradient(to right, #00A88F, #BFE3E0);
+     border: none;
+     border-radius: 10px;
+     transition: all 0.25s ease;
+}
+.myButton:hover {
+     color: #ffffff;
+     background: linear-gradient(to left, #00A88F, #BFE3E0);
+     border-color: none;
+}

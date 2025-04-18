@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section >
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-6 mb-4 mb-lg-0">
+        {% with u=user %}
+        <div class="card mb-3" style="border-radius: .5rem;">
+          <div class="row g-0">
+            <div class="col-md-4 text-center text-white"
+              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+              <img src="{{u.userprofile.profile_image.url}}"
+                alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
+              <h5 class="text-black">{{u.first_name}} {{u.last_name}}</h5>
+              {% if u.job_title %}
+              <p>{{u.job_title}}</p>
+              {% endif %}
+              <i class="far fa-edit mb-5"></i>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body p-4">
+                <h6>Information</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>Email</h6>
+                    <p class="text-muted">{{u.email}}</p>
+                  </div>
+                </div>
+                <h6>Bio</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-12 mb-3">
+                    {{u.userprofile.biographie}}
+                  </div>
+                </div>
+                <div class="d-flex justify-content-start gap-3">
+                  <a href="{% url 'logout' %}">Logout</a>
+                  <a href="{% url 'editprofile' %}">Edit Profile</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endwith %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
